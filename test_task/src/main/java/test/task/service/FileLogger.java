@@ -2,7 +2,9 @@ package test.task.service;
 
 import org.springframework.stereotype.Service;
 
-import java.io.PrintWriter;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -16,10 +18,23 @@ public class FileLogger implements Logger{
     private PrintWriter printWriter;
 
     public FileLogger() {
+        //Here I init printWriter object into file with name of current date
         //TODO: Create/Open file and open here PrintWriter
-        printWriter = new PrintWriter(System.out, true);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM dd yyyy");
+        Date date = new Date();
+        String fileName = simpleDateFormat.format(date);
+        File file = new File("./logs/" + fileName + ".log");
+        try {
+            file.createNewFile();
+            printWriter = new PrintWriter(new FileOutputStream(file, true), true);
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException(e);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
+    //Here I just input needed message into PrintWriter with prefixes
     @Override
     public void info(String message) {
         printWriter.println("[INFO][" + (new Date()).toString() + "]: " + message);
