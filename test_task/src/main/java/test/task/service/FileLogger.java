@@ -19,7 +19,6 @@ public class FileLogger implements Logger{
 
     public FileLogger() {
         //Here I init printWriter object into file with name of current date
-        //TODO: Create/Open file and open here PrintWriter
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM dd yyyy");
         Date date = new Date();
         String fileName = simpleDateFormat.format(date);
