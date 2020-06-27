@@ -12,5 +12,11 @@ public interface FilesUtils {
      * @return generated file name
      */
     String getFileName(String url);
+
+    /**
+     * Filter html file, removing tags from there
+     * @param url
+     */
+    void filterFile(String url);
 }
 
