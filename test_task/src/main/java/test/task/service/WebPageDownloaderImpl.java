@@ -3,9 +3,11 @@ package test.task.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 @Service
 public class WebPageDownloaderImpl implements WebPageDownloader {
@@ -29,6 +31,14 @@ public class WebPageDownloaderImpl implements WebPageDownloader {
             URL page;
             page = new URL(url);
             //Open input stream in connection to page
+            //
+            URLConnection connection = page.openConnection();
+            log.info("Content type of response is: " + connection.getContentType());
+            if(!connection.getContentType().contains("text")) {
+                log.error("Response from " + url + " has not text content type");
+                throw new IllegalArgumentException("Response has no text");
+            }
+            //
             InputStream is = page.openStream();
             //Init buffered reader on input stream
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
